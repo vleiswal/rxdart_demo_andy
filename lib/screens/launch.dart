@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rxdart_andy_demo/blocs/reader_bloc.dart';
 import 'package:rxdart_andy_demo/screens/read.dart';
 
 class Launch extends StatefulWidget {
@@ -7,8 +9,17 @@ class Launch extends StatefulWidget {
 }
 
 class _LaunchState extends State<Launch> {
+  ReaderBloc readerBloc;
+
+  @override
+  void dispose() {
+    readerBloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    readerBloc = Provider.of<ReaderBloc>(context);
     return Scaffold(
       body: Center(
         child: Container(
@@ -35,6 +46,8 @@ class _LaunchState extends State<Launch> {
                 ),
                 child: Text('Engage', style: TextStyle(color: Colors.white)),
                 onPressed: () {
+                  // Launch Reader
+                  readerBloc.startReading();
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => Read()),
                   );
